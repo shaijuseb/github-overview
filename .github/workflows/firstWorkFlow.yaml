@@ -8,8 +8,6 @@ on:
 jobs:
  firstjob:
   runs-on: ubuntu-latest
-  env:
-   JOB_VAR: "Job level variable"
   steps:
    - name: firstjob script
      shell: bash
@@ -26,16 +24,28 @@ jobs:
       echo "what is the time of greetings: ${{steps.greetings.outputs.time }}"
      
  secondjob:
-  runs-on: windows-latest
+  needs: firstjob
+  env:
+   JOB_VAR: "Job level variable"
+  runs-on: ubuntu-latest
   steps:
    - name: secondjob script
-     shell: cmd
+     shell: bash
      run: |
       echo this is the second job
       echo and this is a multi-line script
    - name: environemnt variable
      env:
       STEP_VAR: "step level variable"
+     run: |
+       echo $WORKFLOW_VAR
+       echo $JOB_VAR
+       echo $STEP_VAR
+       echo "The following is a secret: ${{ secrets.SOME_SECRET }}, of course, I cant tell you because then it wouldnt be a secret..."
+       echo "The following are default environment variables:"
+       echo $GITHUB_ACTOR
+       echo $GITHUB_JOB
+       echo $GITHUB_REF       
       
      
   
