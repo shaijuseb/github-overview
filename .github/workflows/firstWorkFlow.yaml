@@ -1,15 +1,30 @@
 name: first Workflow
+env:
+ WORKFLOW_VAR: "this is the workflow variable"
 
 on:
  workflow_dispatch:
 
 jobs:
  firstjob:
-  runs-on: self-hosted
+  runs-on: ubuntu-latest
+  env:
+   JOB_VAR: "Job level variable"
   steps:
    - name: firstjob script
      shell: bash
      run: echo Hello Worls! This is the first Job
+   - name : checkout
+     uses: actions/checkout@v4
+   - name: greethings
+     id: greetings
+     uses: actions/hello-world-javascript-action@main
+     with:
+      who-to-greet: 'Shaiju Joseph'
+   - name: time
+     run: |
+      echo "what is the time of greetings: ${{steps.greetings.outputs.time }}"
+     
  secondjob:
   runs-on: windows-latest
   steps:
@@ -18,6 +33,11 @@ jobs:
      run: |
       echo this is the second job
       echo and this is a multi-line script
+   - name: environemnt variable
+     env:
+      STEP_VAR: "step level variable"
+      
+     
   
  
  
