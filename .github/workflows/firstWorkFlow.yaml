@@ -1,0 +1,23 @@
+name: first Workflow
+
+on:
+ workflow_dispatch:
+
+jobs:
+ firstjob:
+  runs-on: self-hosted
+  steps:
+   - name: firstjob script
+     shell: bash
+     run: echo Hello Worls! This is the first Job
+ secondjob:
+  runs-on: windows-latest
+  steps:
+   - name: secondjob script
+     shell: cmd
+     run: |
+      echo this is the second job
+      echo and this is a multi-line script
+  
+ 
+ 
